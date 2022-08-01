@@ -8,12 +8,49 @@ let midXCanvas = 350;
 let midYCanvas = 225;
 
 ctx.strokeStyle = 'blue';
-ctx.strokeRect(midXCanvas-50, midYCanvas-50, 100, 100);
+ctx.strokeRect(midXCanvas-25, midYCanvas-40, 50, 60);
 
+let mainCharacter = new Image();
+mainCharacter.src = "images/sprites/characterMovementSprites.png";
+mainCharacter.onload = function drawBase() {
+ctx.drawImage(mainCharacter,0,0,20,30,midXCanvas-30,midYCanvas-40,60,60);
+}
+
+import characterDesign from 'scriptOfCustomization.js';
+console.log(characterDesign)
+//main characters design
+function mainDesignDown() {
+  let mainCharacter = new Image();
+  mainCharacter.src = "images/sprites/characterMovementSprites.png";
+  mainCharacter.onload = function drawBase() {
+  ctx.drawImage(mainCharacter,0,0,20,30,midXCanvas-30,midYCanvas-40,60,60);
+  }
+}
+function mainDesignUp() {
+  let mainCharacter = new Image();
+  mainCharacter.src = "images/sprites/characterMovementSprites.png";
+  mainCharacter.onload = function drawBase() {
+  ctx.drawImage(mainCharacter,0,37,20,30,midXCanvas-30,midYCanvas-40,60,60);
+  }
+}
+function mainDesignRight() {
+  let mainCharacter = new Image();
+  mainCharacter.src = "images/sprites/characterMovementSprites.png";
+  mainCharacter.onload = function drawBase() {
+  ctx.drawImage(mainCharacter,0,72,20,30,midXCanvas-27,midYCanvas-40,60,60);
+  }
+}
+function mainDesignLeft() {
+  let mainCharacter = new Image();
+  mainCharacter.src = "images/sprites/characterMovementSprites.png";
+  mainCharacter.onload = function drawBase() {
+  ctx.drawImage(mainCharacter,212,72,20,30,midXCanvas-27,midYCanvas-40,60,60);
+  }
+}
 //main characters hitbox
 function main() {
   ctx.strokeStyle = 'blue';
-  ctx.strokeRect(midXCanvas-50, midYCanvas-50, 100, 100);
+  ctx.strokeRect(midXCanvas-25, midYCanvas-40, 50, 60);
 }
 //brings the inventory on screen
 function inventoryBox() {
@@ -22,32 +59,37 @@ function inventoryBox() {
 }
 //movement keys
 function left() {
-ctx.clearRect(0,0,900,450);
-midXCanvas -= 10;
-main();
+  ctx.clearRect(0,0,900,450);
+  midXCanvas -= 10;
+  main();
+  mainDesignLeft()
 }
 function right() {
-ctx.clearRect(0,0,900,450);
-midXCanvas += 10;
-main();
+  rightIndicator = true;
+  ctx.clearRect(0,0,900,450);
+  midXCanvas += 10;
+  main();
+  mainDesignRight();
 }
 function up() {
-ctx.clearRect(0,0,900,450);
-midYCanvas -= 10;
-main();
+  ctx.clearRect(0,0,900,450);
+  midYCanvas -= 10;
+  main();
+  mainDesignUp()
 }
 function down() {
-ctx.clearRect(0,0,900,450);
-midYCanvas += 10;
-main();
+  ctx.clearRect(0,0,900,450);
+  midYCanvas += 10;
+  main();
+  mainDesignDown()
 }
 let inventoryCount = 0;
 //inventory function
 function inventory() {
-inventoryBox();
-inventoryCount += 1;
-if(inventoryCount%2 == 0) {
-ctx1.clearRect(0,0,900,450);
+  inventoryBox();
+  inventoryCount += 1;
+  if(inventoryCount%2 == 0) {
+  ctx1.clearRect(0,0,900,450);
 }
 }
 //switch case for function keys

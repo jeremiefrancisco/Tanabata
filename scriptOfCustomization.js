@@ -153,9 +153,7 @@ function confirm() {
   userEnterInput = false;
 }
   if(customizationLevel == 2) {
-    /*
     location.replace("indexOfPart1.html");
-    */
     if(chosenGender == 1) {
       if(sFNum == 0) {
         characterDesign = "sprites/customizationSprites/female/femaleOption.png";
@@ -191,16 +189,6 @@ function changeLevel() {
     console.log("Are you happy with this character? Press Y/N")
   }
 }
-function test() {
-  console.log(characterDesign)
-}
-var Student = {
-    name : "ABC",
-    age : 18,
-    dept : "CSE",
-    score : 90
-};
-export = {Student};
 //switch case for function keys
 window.addEventListener("keypress", (event) => {
     switch (event.key) {
@@ -218,7 +206,5 @@ window.addEventListener("keypress", (event) => {
             break;
         case "n":
             decline();
-        case "h":
-            test();
     }
 });

@@ -14,6 +14,9 @@ let inv = inventory.getContext('2d');
 let object = document.getElementById('myCanvas4');
 let obj = object.getContext('2d');
 
+let inventoryStuff = document.getElementById('myCanvas5');
+let invS = inventoryStuff.getContext('2d');
+
 //bacgkround related coordinates
 let backgroundX = 0;
 let backgroundY = 0;
@@ -27,7 +30,7 @@ let opponentY1 = 0;
 let opponentX2 = opponentX1+50;
 let opponentY2 = 60;
 //healthbars
-let opponentHealth = 2;
+let opponentHealth = 4;
 let mcHealth = 10;
 //mc related coordinates
 let mcPositionX1 = 320;
@@ -35,25 +38,26 @@ let mcPositionY1 = 180;
 let mcPositionX2 = mcPositionX1+50;
 let mcPositionY2 = mcPositionY1+60;
 //object related coordinates
-let objPositionX1 = 50;
-let objPositionY1 = 50;
-let objPositionX2 = objPositionX1+50;
-let objPositionY2 = objPositionY1+60;
+let objPositionX1 = 100;
+let objPositionY1 = 100;
+let objPositionX2 = objPositionX1+30;
+let objPositionY2 = objPositionY1+30;
+//this will tell the program if the character has a weapon
+let sword = false;
 //background picture
 let backgroundPicture = new Image();
-backgroundPicture.src = "images/testBackground.png";
+backgroundPicture.src = "";
 backgroundPicture.onload = function drawbackgroundPicture() {
 bg.drawImage(backgroundPicture,backgroundX,backgroundY,canvasWidth,canvasHeight);
 }
 function background() {
   let backgroundPicture = new Image();
-  backgroundPicture.src = "images/testBackground.png";
+  backgroundPicture.src = "";
   backgroundPicture.onload = function drawTest() {
   bg.drawImage(backgroundPicture,backgroundX,backgroundY,canvasWidth,canvasHeight);
   }
 }
-//array that will hold all the items the player picks up
-let items = 
+
 //default hitbox design
 mc.strokeStyle = 'blue';
 mc.strokeRect(mcPositionX1, mcPositionY1, 50, 60);
@@ -120,87 +124,262 @@ function mainDesignLeft() {
   mc.drawImage(mainCharacter,212,72,20,30,mcPositionX1,mcPositionY1,50,60);
   }
 }
-//brings the inventory on screen
-function inventoryBox() {
-  inv.strokeStyle = 'red';
-  inv.strokeRect(50, 30, 600, 400);
+//this will prevent the player from walking through opponents
+function stopMovementLeft() {
+    backgroundX -= 20;
+    opponentX1 -= 20;
+    opponentX2 -= 20;
+    objPositionX1 -= 20;
+    objPositionX2 -= 20;
 }
-//movement keys
-function left() {
-  bg.clearRect(0,0,900,450);
-  mc.clearRect(0,0,900,450);
-  opp.clearRect(0,0,900,450);
-  obj.clearRect(0,0,900,450);
+function stopMovementRight() {
   backgroundX += 10;
   opponentX1 += 10;
   opponentX2 += 10;
   objPositionX1 += 10;
   objPositionX2 += 10;
+}
+function stopMovementUp() {
+  backgroundY -= 10;
+  opponentY1 -= 10;
+  opponentY2 -= 10;
+  objPositionY1 -= 10;
+  objPositionY2 -= 10;
+}
+function stopMovementDown() {
+  backgroundY += 10;
+  opponentY1 += 10;
+  opponentY2 += 10;
+  objPositionY1 += 10;
+  objPositionY2 += 10;
+}
+//functions that lets the player walk
+function movementLeft() {
+  backgroundX += 10;
+  opponentX1 += 10;
+  opponentX2 += 10;
+  objPositionX1 += 10;
+  objPositionX2 += 10;
+}
+function movementRight() {
+  backgroundX -= 10;
+  opponentX1 -= 10;
+  opponentX2 -= 10;
+  objPositionX1 -= 10;
+  objPositionX2 -= 10;
+}
+function movementUp() {
+  backgroundY += 10;
+  opponentY1 += 10;
+  opponentY2 += 10;
+  objPositionY1 += 10;
+  objPositionY2 += 10;
+}
+function movementDown() {
+  backgroundY -= 10;
+  opponentY1 -= 10;
+  opponentY2 -= 10;
+  objPositionY1 -= 10;
+  objPositionY2 -= 10;
+}
+//this will call all the functions that create the hitboxes
+function callAllHitboxLeft() {
   mainHitbox();
   mainDesignLeft();
   background();
   opponentHitbox();
   objectHitbox();
 }
-function right() {
-  bg.clearRect(0,0,900,450);
-  mc.clearRect(0,0,900,450);
-  opp.clearRect(0,0,900,450);
-  obj.clearRect(0,0,900,450);
-  backgroundX -= 10;
-  opponentX1 -= 10;
-  opponentX2 -= 10;
-  objPositionX1 -= 10;
-  objPositionX2 -= 10;
+function callAllHitboxRight() {
   mainHitbox();
   mainDesignRight();
   background();
   opponentHitbox();
   objectHitbox();
 }
-function up() {
-  bg.clearRect(0,0,900,450);
-  mc.clearRect(0,0,900,450);
-  opp.clearRect(0,0,900,450);
-  obj.clearRect(0,0,900,450);
-  backgroundY += 10;
-  opponentY1 += 10;
-  opponentY2 += 10;
-  objPositionY1 += 10;
-  objPositionY2 += 10;
+function callAllHitboxUp() {
   mainHitbox();
   mainDesignUp();
   background();
   opponentHitbox();
   objectHitbox();
 }
-function down() {
-  bg.clearRect(0,0,900,450);
-  mc.clearRect(0,0,900,450);
-  opp.clearRect(0,0,900,450);
-  obj.clearRect(0,0,900,450);
-  backgroundY -= 10;
-  opponentY1 -= 10;
-  opponentY2 -= 10;
-  objPositionY1 -= 10;
-  objPositionY2 -= 10;
+function callAllHitboxDown() {
   mainHitbox();
   mainDesignDown();
   background();
   opponentHitbox();
   objectHitbox();
 }
+//array that will hold all the items the player picks up
+const userItems = [1,2,3,4,5,6,7];
+let inventoryLength = userItems.length;
+
+let inventoryPlace = 1;
+//movement keys
+function left() {
+  if(inventoryUp == false) {
+  bg.clearRect(0,0,900,450);
+  mc.clearRect(0,0,900,450);
+  opp.clearRect(0,0,900,450);
+  obj.clearRect(0,0,900,450);
+  if(opponentX2 > mcPositionX1 &&
+    opponentX1 < mcPositionX2 &&
+    opponentY2 > mcPositionY1 &&
+    opponentY1 < mcPositionY2) {
+  stopMovementLeft();
+} else {
+  movementLeft();
+}
+  callAllHitboxLeft();
+} else {
+  if(inventoryPlace<=1) {
+      inventoryPlace = 7;
+  } else {
+      inventoryPlace--;
+      
+  }
+      inventoryHighlight();
+  }
+}
+function right() {
+  if(inventoryUp == false) {
+  bg.clearRect(0,0,900,450);
+  mc.clearRect(0,0,900,450);
+  opp.clearRect(0,0,900,450);
+  obj.clearRect(0,0,900,450);
+  if(opponentX1 < mcPositionX2 &&
+    opponentX2 > mcPositionX1 &&
+    opponentY1 < mcPositionY2 &&
+    opponentY2 > mcPositionY1) {
+      stopMovementRight();
+    } else {
+      movementRight();
+    }
+    callAllHitboxRight();
+} else {
+      if (inventoryPlace == 7) {
+          
+          
+          inventoryPlace = 1;
+          inventoryHighlight();
+         
+      } else {
+        
+          inventoryPlace++;
+          inventoryHighlight();
+     
+          
+      }
+      
+}
+}
+function up() {
+  if(inventoryUp == false) {
+  bg.clearRect(0,0,900,450);
+  mc.clearRect(0,0,900,450);
+  opp.clearRect(0,0,900,450);
+  obj.clearRect(0,0,900,450);
+  if(opponentY2 > mcPositionY1 &&
+    opponentX1 < mcPositionX2 &&
+    opponentX2 > mcPositionX1 &&
+    opponentY1 < mcPositionY2) {
+      stopMovementUp();
+    } else {
+      movementUp();
+    }
+    callAllHitboxUp();
+} else {
+
+}
+}
+function down() {
+  if(inventoryUp == false) {
+  bg.clearRect(0,0,900,450);
+  mc.clearRect(0,0,900,450);
+  opp.clearRect(0,0,900,450);
+  obj.clearRect(0,0,900,450);
+  if(opponentY1 < mcPositionY2 &&
+    opponentY2 > mcPositionY1 &&
+    opponentX1 < mcPositionX2 &&
+    opponentX2 > mcPositionX1
+  ) {
+    stopMovementDown();
+  } else {
+    movementDown();
+  }
+  callAllHitboxDown();
+} else {
+
+}
+}
+
+//brings the inventory on screen
+function inventoryBox() {
+  inv.strokeStyle = 'red';
+  inv.strokeRect(50, 30, 600, 400);
+  let i = 0;
+  let changingX = 80;
+  let multiplicationValue = 1;
+  while(i<7) {
+  i++
+  inv.strokeStyle = "purple";
+  inv.strokeRect(changingX*multiplicationValue, 40, 50, 60);
+  multiplicationValue++;
+}
+}
 let inventoryCount = 0;
+let changingX = 80;
+function inventoryHighlight() {
+    invS.restore();
+    invS.clearRect(0, 0, 700, 450);
+    invS.save();
+    invS.lineWidth = 5;
+    invS.strokeStyle = "yellow";
+    changingX = changingX * inventoryPlace;
+    invS.strokeRect(changingX, 40, 50, 60);
+    
+    changingX = 80;
+    
+}
+let inventoryUp = false;
 //inventory function
 function inventoryPopUp() {
+  inventoryUp = true;
   inventoryBox();
+  inventoryHighlight();
   inventoryCount += 1;
   if(inventoryCount%2 == 0) {
-  inv.clearRect(0,0,900,450);
+      inv.clearRect(0, 0, 900, 450);
+      invS.clearRect(0, 0, 900, 450);
+  inventoryUp = false;
+}
+
+}
+//function that allows you to pick up items
+function pickUp() {
+  if(objPositionX1 == mcPositionX2) {
+  sword = true;
+  userItems.push(sword);
+  console.log(sword)
+} else if(objPositionX2 == mcPositionX1) {
+  sword = true;
+  userItems.push("sword");
+  console.log(sword)
+  console.log(userItems[0]);
+} else if(objPositionY1 == mcPositionY2) {
+  sword = true;
+  userItems.push(sword);
+  console.log(sword)
+} else if(objPositionY2 == mcPositionY1) {
+  sword = true;
+  userItems.push(sword);
+  console.log(sword)
 }
 }
+
 //fight function
-function fight() {
+function lightAttack() {
   console.log("swish")
   if(
   opponentX1 == mcPositionX2 ||
@@ -208,15 +387,19 @@ function fight() {
   opponentY1 == mcPositionY2 ||
   opponentY2 == mcPositionY1
 ) {
+  if(sword == false) {
   opponentHealth -= 1;
-  console.log(opponentHealth)
+  if(opponentHealth<0) {
+    console.log("dead")
+  }
+} else if(sword == true) {
+  opponentHealth -= 2;
+  if(opponentHealth<0) {
+    console.log("dead")
+  }
 }
 }
-//function that allows you to pick up items
-function pickUp() {
-
 }
-
 
 //switch case for function keys
 window.addEventListener("keypress", (event) => {
@@ -236,10 +419,10 @@ window.addEventListener("keypress", (event) => {
         case "i":
             inventoryPopUp();
             break;
-        case "f":
-            fight();
         case "e":
             pickUp();
+        case "f":
+            lightAttack();
     }
 });
 
